@@ -44,7 +44,7 @@ int main()
     strings arrayString;
     vector<std::vector<mystring>> groupbyDestination;
 
-    vector<int> sortColumns{0,1,2,3};
+    vector<int> sortColumns{0,1,2,3,10};
     vector<int> groupByColumns{0,1,2,3};
     vector<int> distinctColumns{8,9,10};
 
@@ -64,19 +64,19 @@ int main()
 
     sort(arrayString.begin(), arrayString.end(), Comparator<mystring>(sortColumns));
 
-    int count = 0;
-    for(auto it = arrayString.begin(); it != arrayString.end(); ++it) {
-        for(size_t st = 0; st < (*it).size() - 1; ++st)
-        {
-            cout << setw(16) << *(*it)[st] << ";";
-        }
-        cout << setw(16) << *(*it)[(*it).size() - 1];
-        cout << endl;
-        count++;
-        if (count == 100) {
-            break;
-        }
-    }
+//    int count = 0;
+//    for(auto it = arrayString.begin(); it != arrayString.end(); ++it) {
+//        for(size_t st = 0; st < (*it).size() - 1; ++st)
+//        {
+//            cout << setw(16) << *(*it)[st] << ";";
+//        }
+//        cout << setw(16) << *(*it)[(*it).size() - 1];
+//        cout << endl;
+//        count++;
+//        if (count == 100) {
+//            break;
+//        }
+//    }
 
     cout << "normalizer size : " << normalizer.size() << endl;
 
@@ -91,14 +91,14 @@ int main()
 //    vector<int> floatss{4};
 //    sort(groupbyDestination.begin(), groupbyDestination.end(), Comparator<int>(floatss));
 
-    for(auto it = groupbyDestination.begin(); it != groupbyDestination.end(); ++it) {
-        for(size_t st = 0; st < (*it).size() - 1; ++st)
-        {
-            cout << setw(16) << (*it)[st] << ";";
-        }
-        cout << setw(16) << (*it)[(*it).size() - 1];
-        cout << endl;
-    }
+//    for(auto it = groupbyDestination.begin(); it != groupbyDestination.end(); ++it) {
+//        for(size_t st = 0; st < (*it).size() - 1; ++st)
+//        {
+//            cout << setw(16) << (*it)[st] << ";";
+//        }
+//        cout << setw(16) << (*it)[(*it).size() - 1];
+//        cout << endl;
+//    }
 
     return 0;
 }
