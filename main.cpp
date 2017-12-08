@@ -27,12 +27,8 @@ struct GroupBy {
 private:
     std::vector<int> _pie;
     std::vector<int> _distinct;
-    std::string lv, rv;
 public:
-    GroupBy(std::vector<int>& pie, std::vector<int>& distinct):_pie(pie), _distinct(distinct){
-        lv.reserve(1000);
-        rv.reserve(1000);
-    }
+    GroupBy(std::vector<int>& pie, std::vector<int>& distinct):_pie(pie), _distinct(distinct){}
     void groupby(strings& source, std::vector<std::vector<mystring>>& destination);
     void distinct(std::vector<std::set<mystring>>& sets, std::vector<mystring>& value);
 };
@@ -220,10 +216,6 @@ void GroupBy::groupby(strings &source, std::vector<std::vector<mystring>> &desti
     for(auto it = source.begin(); it != source.end(); ++it) {
         std::transform(std::begin(*it), std::end(*it), std::back_inserter(value), [](mystring* item){return *item;});
 
-        for(int _pos : _pie) {
-            lv.append(value[_pos]);
-        }
-
         size_t size = destination.size();
         std::vector<mystring>& temp = destination[size-1];
 
@@ -233,11 +225,18 @@ void GroupBy::groupby(strings &source, std::vector<std::vector<mystring>> &desti
             size = destination.size();
             temp = destination[size-1];
 
+            bool _comp = false;
+
             for(int _pos : _pie) {
-                rv.append(temp[_pos]);
+                if (value[_pos] != temp[_pos]) {
+                    _comp = false;
+                    break;
+                } else {
+                    _comp = true;
+                }
             }
 
-            if (lv != rv)
+            if (_comp == false)
             {
                 for(int _dist : _distinct) {
                     size_t count = sets[_dist].size();
@@ -248,9 +247,7 @@ void GroupBy::groupby(strings &source, std::vector<std::vector<mystring>> &desti
                 destination.emplace_back(value);
             }
             this->distinct(sets, value);
-            rv.clear();
         }
-        lv.clear();
         value.clear();
     }
 
