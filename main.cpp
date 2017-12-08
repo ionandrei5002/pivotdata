@@ -17,12 +17,8 @@ template<typename T>
 struct Comparator {
 private:
     std::vector<int> _pie;
-    std::string lv, rv;
 public:
-    Comparator<T>(std::vector<int>& pie):_pie(pie){
-        lv.reserve(1000);
-        rv.reserve(1000);
-    }
+    Comparator<T>(std::vector<int>& pie):_pie(pie){}
     bool operator()(const pieces& first, const pieces& second);
     bool operator()(const std::vector<mystring>& first, const std::vector<mystring>& second);
 };
@@ -93,11 +89,11 @@ int main()
 
     cout << "groupby size : " << groupbyDestination.size() << endl;
 
-    sort(groupbyDestination.begin(), groupbyDestination.end(), Comparator<int>(distinctColumns));
-    vector<int> floats{5};
-    sort(groupbyDestination.begin(), groupbyDestination.end(), Comparator<mystring>(floats));
-    vector<int> floatss{4};
-    sort(groupbyDestination.begin(), groupbyDestination.end(), Comparator<int>(floatss));
+//    sort(groupbyDestination.begin(), groupbyDestination.end(), Comparator<int>(distinctColumns));
+//    vector<int> floats{5};
+//    sort(groupbyDestination.begin(), groupbyDestination.end(), Comparator<mystring>(floats));
+//    vector<int> floatss{4};
+//    sort(groupbyDestination.begin(), groupbyDestination.end(), Comparator<int>(floatss));
 
     for(auto it = groupbyDestination.begin(); it != groupbyDestination.end(); ++it) {
         for(size_t st = 0; st < (*it).size() - 1; ++st)
@@ -149,14 +145,14 @@ void split(pieces& results, mystring const& original, char separator)
 template<typename T>
 bool Comparator<T>::operator()(const pieces& first, const pieces& second)
 {
-    bool _comp;
+    bool _comp = false;
+
     for(int _pos : _pie) {
-        lv.append(*first[_pos]);
-        rv.append(*second[_pos]);
+        if (*first[_pos] != *second[_pos]) {
+            _comp = (*first[_pos] < *second[_pos]);
+            return _comp;
+        }
     }
-    _comp = (lv < rv);
-    lv.clear();
-    rv.clear();
 
     return _comp;
 }
@@ -164,14 +160,14 @@ bool Comparator<T>::operator()(const pieces& first, const pieces& second)
 template<typename T>
 bool Comparator<T>::operator()(const std::vector<mystring>& first, const std::vector<mystring>& second)
 {
-    bool _comp;
+    bool _comp = false;
+
     for(int _pos : _pie) {
-        lv.append(first[_pos]);
-        rv.append(second[_pos]);
+        if (first[_pos] != second[_pos]) {
+            _comp = (first[_pos] < second[_pos]);
+            return _comp;
+        }
     }
-    _comp = (lv < rv);
-    lv.clear();
-    rv.clear();
 
     return _comp;
 }
@@ -186,9 +182,7 @@ bool Comparator<int>::operator()(const std::vector<mystring>& first, const std::
         int fv = stoi(first[_pos]);
         int sv = stoi(second[_pos]);
 
-        if (fv == sv) {
-            _comp = false;
-        } else {
+        if (fv != sv) {
             _comp = (fv < sv);
             return _comp;
         }
@@ -208,9 +202,7 @@ bool Comparator<float>::operator()(const std::vector<mystring>& first, const std
         float fv = stof(first[_pos]);
         float sv = stof(second[_pos]);
 
-        if (fv == sv) {
-            _comp = false;
-        } else {
+        if (fv != sv) {
             _comp = (fv < sv);
             return _comp;
         }
